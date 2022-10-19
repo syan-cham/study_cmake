@@ -10,8 +10,13 @@
   - [4. CMake 预设语法详述？](#4-cmake-预设语法详述)
     - [4.0. 一些需要提前说明的概念](#40-一些需要提前说明的概念)
       - [4.0.1. condition（条件）](#401-condition条件)
+      - [4.0.2. 宏展开](#402-宏展开)
     - [4.1. include 字段](#41-include-字段)
     - [4.2. configurePresets 字段](#42-configurepresets-字段)
+    - [4.3. buildPresets 字段](#43-buildpresets-字段)
+    - [4.4. testPresets](#44-testpresets)
+    - [4.5. packagePresets 字段](#45-packagepresets-字段)
+    - [4.6. workflowPresets 字段](#46-workflowpresets-字段)
 
 ## 0. 学习目标
 1. 为什么需要预设？
@@ -256,6 +261,28 @@ CMakePresets.json 文件因为是项目的一部分，所以需要和其他项�
 }
 ```
 
+#### 4.0.2. 宏展开
+CMake 默认定义了一些支持的宏，可以在预设中通过宏方便的获取到一些值。
+
+如果需要在 CMake 预设中使用宏，形式如 ```$<macro-namespace>{<macro-name>}```
+
+下面列出一些常用的宏：
+- ${sourceDir}
+- ${sourceParentDir}
+- ${sourceDirName}
+- ${presetName}
+- ${generator}
+- ${hostSystemName}
+- ${fileDir}
+- ${dollar}
+- ${pathListSep}
+  - 用于分隔路径列表的本机字符，例如 : 或 ;。
+  - 例如: /path/to/ninja/bin${pathListSep}$env{PATH}
+- ```$env{<variable-name>}```
+- ```$penv{<variable-name>}```
+  - 例子：```/path/to/ninja/bin:$penv{PATH}```
+- ```$vendor{<macro-name>}```
+
 ### 4.1. include 字段
 在 CMake 预设中，include 用于包含其他 json 文件，如果所有的预设信息都在 CMakePresets.json 一个 json 文件中描述，那随着项目的复杂度增加，预设需求的增加，CMakePresets.json 势必会变得非常的臃肿，所以 CMake 预设 4 版本（CMake 3.23 引入）中添加 include 字段支持，用于包含特定功能的 CMake 预设 json 描述文件。
 
@@ -368,3 +395,255 @@ CMakePresets.json 文件因为是项目的一部分，所以需要和其他项�
   - output，等同于 --debug-output
   - tryCompile，等同于 --debug-trycompile
   - find，等同于 --debug-find
+
+### 4.3. buildPresets 字段
+```json
+{
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default"
+    }
+  ]
+}
+```
+- 必须字段
+  - name 字段
+- 可选字段
+  - hidden
+  - inherits
+  - condition
+  - vendor
+  - displayName
+  - description
+  - environment
+    - 需要注意的是，如果有 ExternalProject 引入的项目希望通过继承得到配置阶段预设中的环境变量是不可行的。比如默认编译器是 clang，但是配置阶段指定为 gcc，那么 ExternalProject 引入的项目即使继承了配置阶段的预设，它依然使用 clang 而不是 gcc。
+  - configurePreset
+  - inheritConfigureEnvironment
+    - 默认为 true
+  - jobs
+    - 等价于 --parallel 或者 -j
+  - targets
+    - 等价于 --target 或者 -t
+  - configuration
+    - 等价于 --config
+  - cleanFirst
+    - 等价于 --clean-first
+  - resolvePackageReferences
+    - 指定包解析模式，包引用用于定义来自外部包管理器的包的依赖关系。
+    - 目前仅支持 NuGet 与 Visual Studio 生成器的组合。
+    - 值为 on 时，在尝试构建之前解析包引用
+    - 值为 off 时，包引用不会被解析。
+    - 值为 only 时，只解析包引用，但不执行构建。
+    - 命令行参数 --resolve-package-references 将优先于此设置。
+  - verbose
+    - 等价于 --verbose
+  - nativeToolOptions
+    - 等价于传递 -- 参数
+
+### 4.4. testPresets
+```json
+{
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "output": {"outputOnFailure": true},
+      "execution": {"noTestsAction": "error", "stopOnFailure": true}
+    }
+  ]
+}
+```
+- 必须字段
+  - name
+- 可选字段
+  - hidden
+  - inherits
+  - condition
+  - vendor
+  - displayName
+  - description
+  - environment
+  - configurePreset
+  - inheritConfigureEnvironment
+  - configuration
+    - 等价于 --build-config
+  - overwriteConfigurationFile
+    - 等价于 --overwrite
+  - output
+    - shortProgress
+      - 等价于 --progress
+    - verbosity
+      - 指定详细级别，必须是如下值之一：
+        - default
+        - verbose
+          - 等价于 --verbose
+        - extra
+          - 等价于 --extra-verbose
+    - debug
+      - 等价于 --debug
+    - outputOnFailure
+      - 等价于 --output-on-failure
+    - quiet
+      - 等价于 --quiet
+    - outputLogFile
+      - 等价于 --output-log
+    - labelSummary
+      - 等价于 --no-label-summary
+    - subprojectSummary
+      - 等价于 --no-subproject-summary
+    - maxPassedTestOutputSize
+      - 等价于 --test-output-size-passed
+    - maxFailedTestOutputSize
+      - 等价于 --test-output-size-failed
+    - testOutputTruncation
+      - 等价于 --test-output-truncation
+    - maxTestNameWidth
+      - 等价于 --max-width
+  - filter
+    - 指定如何过滤要运行的测试
+    - include
+      - 指定要包含的测试
+      - name
+        - 指定测试名称的正则表达式，等价于 --tests-regex
+      - label
+        - 指定测试标签的正则表达式，等价于 --label-regex
+      - useUnion
+        - 等价于 --union
+      - index
+        - 指定要按测试索引包含的测试
+          - start
+          - end
+          - stride
+          - specificTests
+    - exclude
+      - name
+        - 等价于 --exclude-regex
+      - label
+        - 等价于 --label-exclude
+      - fixtures
+        - 指定要从添加测试中排除哪些夹具
+        - any
+          - 指定要从添加任何测试中排除的文本装置的正则表达式，等价于 --fixture-exclude-any
+        - setup
+          - 等价于 --fixture-exclude-setup
+        - cleanup
+          - 指定要从添加清理测试中排除的文本装置的正则表达式，等价于  --fixture-exclude-cleanup
+  - execution
+    - 指定测试执行的选项
+    - stopOnFailure
+      - 等价于 --stop-on-failure
+    - enableFailover
+      - 等价于 -F
+    - jobs
+      - 等价于 --parallel
+    - resourceSpecFile
+      - 等价于 --resource-spec-file
+    - testLoad
+      - 等价于 --test-load
+    - showOnly
+      - 等价于 --show-only
+      - 必须是以下值之一
+        - human
+        - json-v1
+    - repeat
+      - 指定如何重复测试，等价于 --repeat
+      - mode
+        - 必须是以下值之一
+          - until-fail
+          - until-pass
+          - after-timeout
+      - count
+    - interactiveDebugging
+      - 如果值为 true，则等价于 --interactive-debug-mode 1
+      - 如果值为 false，则等价于 --interactive-debug-mode 0
+    - scheduleRandom
+      - 如果值为 true，则等价于 --schedule-random
+    - timeout
+      - 等价于 --timeout
+    - noTestsAction
+      - 如果未找到测试，则指定行为的字符串，必须是以下值之一
+        - default
+        - error
+          - 等价于 --no-tests=error
+        - ignore
+          - 等价于 --no-tests=ignore
+
+### 4.5. packagePresets 字段
+```json
+{
+  "packagePresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "generators": [
+        "TGZ"
+      ]
+    }
+  ]
+}
+```
+- 必须字段
+  - name
+- 可选字段
+  - hidden
+  - inherits
+  - condition
+  - vendor
+  - displayName
+  - description
+  - environment
+  - configurePreset
+  - inheritConfigureEnvironment
+  - generators
+  - configurations
+    - 字符串列表，表示 CPack 要打包的构建配置
+  - variables
+    - 等价于使用 -D 传递给 CPack 的变量
+  - configFile
+    - 表示 CPack 使用的配置文件
+  - output
+    - debug，如果为 true，则等价于 --debug
+    - verbose，如果为 true，则等价于 --verbose
+  - packageName
+  - packageVersion
+  - packageDirectory
+  - vendorName
+
+### 4.6. workflowPresets 字段
+```json
+{
+  "workflowPresets": [
+    {
+      "name": "default",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default"
+        },
+        {
+          "type": "build",
+          "name": "default"
+        },
+        {
+          "type": "test",
+          "name": "default"
+        },
+        {
+          "type": "package",
+          "name": "default"
+        }
+      ]
+    }
+  ]
+}
+```
+- 必须字段
+  - name
+    - cmake --workflow --preset name
+  - steps
+    - type
+    - name
+- 可选字段
+  - displayName
+  - description
