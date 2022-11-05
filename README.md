@@ -15,7 +15,8 @@
 
 这里会列出一个大概的提纲，便于课程的组织，当然可能会随时调整。
 
-[30. CMake 预设](./doc/cmake_presets.md)
+- [30. CMake 预设](./doc/cmake_presets.md)
+- [31. CMake 工具链](./doc/cmake_toolchains.md)
 
 ## 2. 如何学习
 
