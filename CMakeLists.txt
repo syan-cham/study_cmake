@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 project(study_cmake
     VERSION         0.0.1
@@ -36,12 +36,12 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 endif()
 
 # 设置全局 C++ 标准
-set(CMAKE_CXX_STANDARD          17 )
+set(CMAKE_CXX_STANDARD          20 )
 set(CMAKE_CXX_STANDARD_REQUIRED ON )
 set(CMAKE_CXX_EXTENSIONS        OFF)
 
 # 如果编译器支持过程间优化（interprocedural optimization）则打开它
-include(CheckIPOSupported) 
+include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported)
 if(ipo_supported)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION True)

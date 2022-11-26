@@ -7,6 +7,7 @@
   - [3. 编写 CMake 工具链脚本](#3-编写-cmake-工具链脚本)
   - [4. sysroot](#4-sysroot)
   - [5. 跨平台构建](#5-跨平台构建)
+  - [6. 制作 sysroot](#6-制作-sysroot)
 
 ## 0. 学习目标
 1. 什么是工具链？
@@ -104,7 +105,7 @@ sysroot 可以简单的理解成一个系统的根目录下的所有东西，但
 
 在 CMake 交叉编译需要指定 sysroot 的时候，最简单直接的方式就是将目标系统的根目录挂在到编译主机的某个目录，然后作为 sysroot 使用。
 
-不过这种方式对于需要跨团队协作的时候很不方便，因为大家不一定都有相同的目标机器可供挂在目录。所以更通用的方式是自己定制制作一个只包含必要头文件和库文件的 sysroot，然后将其作为一个文件夹共享。
+不过这种方式对于需要跨团队协作的时候很不方便，因为大家不一定都有相同的目标机器可供挂载目录。所以更通用的方式是自己定制制作一个只包含必要头文件和库文件的 sysroot，然后将其作为一个文件夹共享。
 
 也就是说 sysroot 其实就是包含编译链接的时候需要的必要头文件和库文件的集合。
 
@@ -121,5 +122,82 @@ sysroot 可以简单的理解成一个系统的根目录下的所有东西，但
   export CMAKE_TOOLCHAIN_FILE=myToolchain.cmake
   ```
 
-其它待补充...
+## 6. 制作 sysroot
+本节只演示如何制作 arm 平台的 ubuntu 22.04 sysrot。
+- 安装 ubuntu 22.04 虚拟机（略）
+- 安装制作 sysroot 必要的软件
+  ```shell
+  sudo apt update
+  sudo apt upgrade -y
 
+  sudo apt install automake bc binfmt-support cmake dpkg-dev
+  sudo apt install libelf-dev libncurses5-dev libssl-dev
+  sudo apt install mesa-common-dev opencl-headers perl qemu
+  sudo apt install qemu-user-static texinfo wget xutils-dev
+  sudo apt install autopoint gperf intltool libglib2.0-dev
+  sudo apt install libltdl-dev libtool python3-libxml2 python3-mako
+  sudo apt install xfonts-utils xsltproc x11-xkb-utils
+  ```
+
+- 开始制作 sysroot
+  ```shell
+  mkdir ubuntu-arm-sysroot
+  wget http://cdimage.ubuntu.com/ubuntu-base/releases/22.04/release/ubuntu-base-22.04.1-base-arm64.tar.gz
+  cd ubuntu-arm-sysroot
+  tar -xvf ../ubuntu-base-22.04.1-base-arm64.tar.gz
+  cp /etc/resolv.conf etc/
+  cp /usr/bin/qemu-aarch64-static usr/bin/
+  cp /usr/bin/qemu-arm-static usr/bin/
+  sudo perl -i.bak -w -pe ’if (/\# (deb.*universe)/){$_="$1\n"}’ > etc/apt/sources.list
+  cd ../
+
+  sudo chroot ubuntu-arm-sysroot
+  apt update
+  apt upgrade -y
+
+  apt-get install locales
+  locale-gen en_GB.UTF-8
+  dpkg-reconfigure -f noninteractive locales
+  dpkg --add-architecture armhf
+  apt update
+  apt dist-upgrade -y
+  # 在这里安装你所需要的库
+  # 例如 apt install libstdc++-9-dev:armhf symlinks
+  symlinks -cr /lib /usr/lib
+  apt clean
+  exit
+  ```
+
+- 从 sysroot 创建一个根文件系统
+  ```shell
+  # 安装以下软件包，以使得 systemd 作为 init 进程启动
+  apt install cgpt init linux-firmware ubuntu-minimal
+  apt install network-manager net-tools openssh-server rsync
+
+  # 启用 ssh 可以使用 root 用户登陆
+  sed -i ’s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g’ > etc/ssh/sshd_config
+  echo ’root:eg’ | chpasswd
+
+  # 可选：创建用户
+  useradd eg -m -s /bin/bash
+  usermod -a -G sudo eg
+  echo ’eg:eg’ | chpasswd
+
+  # 启用 DHCP
+  ln -s /dev/null /etc/udev/rules.d/80-net-setup-link.rules
+  ln -s /dev/null /etc/udev/rules.d/80-net-setup-slot.rules
+  cat <<EOF > /etc/netplan/99_config.yaml
+  > network:
+  >     version: 2
+  >     renderer: NetworkManager
+  >     ethernets:
+  >         eth0:
+  >             optional: true
+  >             dhcp4: true
+  EOF
+
+  # 清理退出
+  symlinks -cr /lib /usr/lib
+  apt clean
+  exit
+  ```
