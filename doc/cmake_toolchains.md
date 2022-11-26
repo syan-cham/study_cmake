@@ -148,7 +148,7 @@ sysroot 可以简单的理解成一个系统的根目录下的所有东西，但
   cp /etc/resolv.conf etc/
   cp /usr/bin/qemu-aarch64-static usr/bin/
   cp /usr/bin/qemu-arm-static usr/bin/
-  sudo perl -i.bak -w -pe ’if (/\# (deb.*universe)/){$_="$1\n"}’ > etc/apt/sources.list
+  # 这里需要手动将 etc/apt/sources.list 中的源加上 [trusted=yes]
   cd ../
 
   sudo chroot ubuntu-arm-sysroot
@@ -175,7 +175,7 @@ sysroot 可以简单的理解成一个系统的根目录下的所有东西，但
   apt install network-manager net-tools openssh-server rsync
 
   # 启用 ssh 可以使用 root 用户登陆
-  sed -i ’s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g’ > etc/ssh/sshd_config
+  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' > etc/ssh/sshd_config
   echo ’root:eg’ | chpasswd
 
   # 可选：创建用户
