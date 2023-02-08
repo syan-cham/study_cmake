@@ -7,23 +7,19 @@ project(study_cmake
     LANGUAGES       CXX
 )
 
-# 可以在每个新的作用域添加，这样 cmake 运行的时候加上 --log-context 参数可以清晰的看到输出的日志属于哪个作用域
-list(APPEND CMAKE_MESSAGE_CONTEXT study_cmake)
+list(APPEND CMAKE_MESSAGE_CONTEXT       "study_cmake")
+list(APPEND CMAKE_MODULE_PATH           "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# 将编译命令导出，便于 debug
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS       ON)
+set(STUDY_CMAKE_TOP_SOURCE_DIR          ${CMAKE_CURRENT_SOURCE_DIR})
+set(STUDY_CMAKE_TOP_BINARY_DIR          ${CMAKE_CURRENT_BINARY_DIR})
 
-# 用新的变量记录该项目的顶级目录路径，如果本项目会被其他项目通过 external 的方式添加会非常有帮助
-set(STUDY_CMAKE_TOP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
-# 设置编译类型
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-# 禁止源内构建
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
     message(FATAL_ERROR
       "\n"
       "In-source builds are not allowed.\n"
@@ -35,14 +31,57 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     )
 endif()
 
-# 设置全局 C++ 标准
-set(CMAKE_CXX_STANDARD          20 )
-set(CMAKE_CXX_STANDARD_REQUIRED ON )
-set(CMAKE_CXX_EXTENSIONS        OFF)
+set(CMAKE_CXX_STANDARD              20 )
+set(CMAKE_CXX_STANDARD_REQUIRED     ON )
+set(CMAKE_CXX_EXTENSIONS            OFF)
+set(CMAKE_CXX_VISIBILITY_PRESET     hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
+set(CMAKE_INSTALL_RPATH             $ORIGIN $ORIGIN/../lib)
+set(CMAKE_INSTALL_PREFIX            "/usr/local")
 
-# 如果编译器支持过程间优化（interprocedural optimization）则打开它
-include(CheckIPOSupported)
-check_ipo_supported(RESULT ipo_supported)
-if(ipo_supported)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION True)
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT ipo_supported)
+    if(ipo_supported)
+        message(STATUS "enable INTERPROCEDURAL OPTIMIZATION" )
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION True)
+    endif()
 endif()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    message(STATUS "Configuring on/for Linux")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    message(STATUS "Configuring on/for macOS")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    message(STATUS "Configuring on/for Windows")
+else()
+    message(STATUS "Configuring on/for ${CMAKE_SYSTEM_NAME}")
+endif()
+
+include (TestBigEndian)
+test_big_endian(IS_BIG_ENDIAN)
+if(IS_BIG_ENDIAN)
+    message(STATUS "Configuring on/for BIG_ENDIAN")
+else()
+    message(STATUS "Configuring on/for LITTLE_ENDIAN")
+endif()
+
+include(GNUInstallDirs)
+include(GenerateExportHeader)
+
+include(BuildInfo)
+GenerateBuildInfo(${CMAKE_CURRENT_LIST_DIR}/study_cmake_build_info.h.in ${CMAKE_CURRENT_BINARY_DIR}/study_cmake_build_info.h)
+
+add_subdirectory(external)
+add_subdirectory(src)
+
+if(BUILD_TESTING AND PROJECT_IS_TOP_LEVEL)
+    add_subdirectory(test)
+endif()
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/study_cmake_build_info.h
+    DESTINATION
+        ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+add_subdirectory(packaging)
