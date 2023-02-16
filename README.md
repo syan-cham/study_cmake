@@ -3,6 +3,8 @@
 - [Eglinux 的 CMake 练级攻略](#eglinux-的-cmake-练级攻略)
   - [0. 声明](#0-声明)
   - [1. 课程计划](#1-课程计划)
+    - [**第一部分：如何构建简单的可执行文件和库文件，这部分内容足以让你快速入门 CMake**](#第一部分如何构建简单的可执行文件和库文件这部分内容足以让你快速入门-cmake)
+    - [**第二部分：全面介绍 CMake 的基础知识，为在大型项目中使 CMake 发挥最大的价值打下坚实的基础**](#第二部分全面介绍-cmake-的基础知识为在大型项目中使-cmake-发挥最大的价值打下坚实的基础)
   - [2. 如何学习](#2-如何学习)
   - [3. 其他](#3-其他)
 
@@ -20,11 +22,18 @@
 
 ## 1. 课程计划
 
-这里会列出一个大概的提纲，便于课程的组织，当然可能会随时调整。
-
+### **第一部分：如何构建简单的可执行文件和库文件，这部分内容足以让你快速入门 CMake**
 - [第 000 讲：工欲善其事必先利其器：CMake 最佳安装方法](./doc/000_how_to_install_cmake.md)
-- [30. CMake 预设](./doc/cmake_presets.md)
-- [31. CMake 工具链](./doc/cmake_toolchains.md)
+- [第 001 讲：使用 GitHub+ vscode + CMake 快速搭建一个 CMake 管理的项目仓库](./doc/001_github+vscode+cmake_to_build_a_repo.md)
+- [第 002 讲：让 CMake 管理的项目真正工作起来：vscode + CMake 调试 C/C++ 项目](./doc/002_vscode+cmake_to_debug.md)
+- [第 003 讲：CMake Targets：详解 CMake 如何构建简单的 Target](./doc/003_cmake_target_basic.md)
+
+### **第二部分：全面介绍 CMake 的基础知识，为在大型项目中使 CMake 发挥最大的价值打下坚实的基础**
+- [第 004 讲：CMake 变量之普通变量](./doc/004_cmake_var_basic.md)
+- [第 005 讲：CMake 变量之环境变量](./doc/005_cmake_var_env.md)
+- [第 006 讲：CMake 变量之缓存变量](./doc/006_cmake_var_cache.md)
+- [第 007 讲：CMake 变量之作用域](./doc/007_cmake_var_scope.md)
+- [第 008 讲：CMake 变量总结](./doc/008_cmake_var_summarize.md)
 
 ## 2. 如何学习
 
