@@ -30,7 +30,7 @@
 - [第 000 讲：工欲善其事必先利其器：CMake 最佳安装方法](./doc/000_how_to_install_cmake.md)
 - [第 001 讲：使用 GitHub+ vscode + CMake 快速搭建一个 CMake 管理的项目仓库](./doc/001_github+vscode+cmake_to_build_a_repo.md)
 - [第 002 讲：让 CMake 管理的项目真正工作起来：vscode + CMake 调试 C/C++ 项目](./doc/002_vscode+cmake_to_debug.md)
-- [第 003 讲：CMake Targets：详解 CMake 如何构建简单的 Target](./doc/003_cmake_target_basic.md)
+- [第 003 讲：CMake Targets 入门：CMake 如何构建简单的 Target](./doc/003_cmake_target_basic.md)
 
 ### **第二部分：全面介绍 CMake 的基础知识，为在大型项目中使 CMake 发挥最大的价值打下坚实的基础**
 - [第 004 讲：CMake 变量之普通变量](./doc/004_cmake_var_basic.md)
