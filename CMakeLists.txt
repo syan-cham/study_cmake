@@ -65,6 +65,7 @@ GenerateBuildInfo(${CMAKE_CURRENT_LIST_DIR}/study_cmake_build_info.h.in ${CMAKE_
 
 add_subdirectory(external)
 add_subdirectory(src)
+add_subdirectory(examples)
 
 if(BUILD_TESTING AND PROJECT_IS_TOP_LEVEL)
     add_subdirectory(test)
