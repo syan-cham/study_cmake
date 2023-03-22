@@ -1,0 +1,8 @@
+site_name: CMake 练级攻略
+site_url: https://eglinuxer.github.io/study_cmake/
+
+nav:
+  - 初级篇: beginner/
+  - 中级篇: intermediate/
+  - 高级篇: advanced/
+  - 关于我: about.md
