@@ -41,7 +41,7 @@ add_executable(<name> [WIN32] [MACOSX_BUNDLE]
 下面是一个例子：
 
 ```cmake
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
 add_executable(main main.cpp)
 ```
@@ -71,7 +71,7 @@ add_library(<name> [STATIC | SHARED | MODULE]
 看个例子：
 
 ```cmake
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
 add_library(study)
 
@@ -143,7 +143,7 @@ INTERFACE 选项的含义是：targetName 本身不需要这些 iterms，但是�
 例子：
 
 ```cmake
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
 add_subdirectory(study)
 

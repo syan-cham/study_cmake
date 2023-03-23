@@ -13,7 +13,7 @@
 主要看这几个文件：
 - test/CMakeLists.txt
   ```cmake
-  cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+  cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
   
   project(test
       VERSION         0.0.1
@@ -105,7 +105,7 @@
 
 - test/src/CMakeLists.txt
   ```cmake
-  cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+  cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
   add_executable(main main.cpp)
   ```
