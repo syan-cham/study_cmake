@@ -15,6 +15,10 @@
 
 本仓库是我(公众号：Eglinux)为了配合出 CMake 视频教程而建立的仓库，旨在记录一些 CMake 的基础知识以及视频教程中用到的例子。
 
+CMake 学习交流群（如果二维码失效，请加我微信：eglinuxer，备注：CMake学习）：
+
+<img src="./doc/picture/wechat.JPG" width="50%" height="50%">
+
 ## 0. 声明
 本人知识有限，其中难免有不足之处。如果你发现什么地方有问题，欢迎指正。
 
