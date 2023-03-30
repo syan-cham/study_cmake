@@ -36,16 +36,18 @@ CMake 学习交流群（如果二维码失效，请加我微信：eglinuxer，�
 - [第 002 讲：让 CMake 管理的项目真正工作起来：vscode + CMake 调试 C/C++ 项目](./doc/002_vscode+cmake_to_debug.md)
 - [第 003 讲：CMake Targets 入门：CMake 如何构建简单的 Target](./doc/003_cmake_target_basic.md)
 
-<font color="#dddd00">第一部分视频已全部更新，大家可以前往B站搜索 eglinux 进行学习。</font><br /> 
+<font color="#dddd00">第一部分视频已全部更新，大家可以前往B站搜索 eglinux 进行学习。</font> 
 
 ### **第二部分：全面介绍 CMake 的基础知识，为在大型项目中使 CMake 发挥最大的价值打下坚实的基础**
-<font color="#dddd00">从第二部分开始，如果和平台无关的用法，我只会在一个平台演示，如果和平台相关的用法则会到用法支持的平台进行演示。</font><br /> 
+<font color="#dddd00">从第二部分开始，如果和平台无关的用法，我只会在一个平台演示，如果和平台相关的用法则会到用法支持的平台进行演示。</font> 
+
 - [第 004 讲：CMake 变量之普通变量](./doc/004_cmake_var_basic.md)
 - [第 005 讲：CMake 变量之环境变量](./doc/005_cmake_var_env.md)
 - [第 006 讲：CMake 变量之缓存变量](./doc/006_cmake_var_cache.md)
 - [第 007 讲：CMake 变量之作用域](./doc/007_cmake_var_scope.md)
 - [第 008 讲：CMake 变量总结](./doc/008_cmake_var_summarize.md)
 - [第 009 讲：CMake 字符串](./doc/009_cmake_string.md)
+- [第 010 讲：CMake 列表](./doc/010_cmake_list.md)
 - 努力更新中...
 
 ### **第三部分：深入 CMake，探讨 CMake 精髓**
