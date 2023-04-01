@@ -5,6 +5,7 @@
 随着项目越来越复杂，我们要写的 CMake 命令也越来越多。但是某些命令其实我们只想它在特定的条件下才执行，要满足这个需求，CMake 也像其他编程语言一样提供了流程控制相关的命令。本讲我们就来学习 CMake 的 if() 命令。
 
 ## 1. if() 命令
+
 现代 CMake 的 if() 命令格式如下：
 ```cmake
 if(expression1)
@@ -20,12 +21,12 @@ endif()
 其中最重要的就是括号中的表达式，这个是用来判断要走哪个分支的关键。它有很多中形式，我们依次进行学习。
 
 - 基本条件表达式
-    
+  
     ```cmake
     if(value)
     ```
     
-    - ON、YES、TRUE、Y 别视为真
+    - ON、YES、TRUE、Y 被视为真
     - OFF、NO、FALSE、N、IGNORE、NOTFOUND、空字符串、以 -NOTFOUND 结尾的字符串被视为假。
     - 如果是一个数字，将根据 C 语言的规则转换成 bool 值。
     - 如果上述三种情况都不适用，那该条件表达式将被当作一个变量的名字。
@@ -36,7 +37,7 @@ endif()
     - if(ENV{some_var}) 这种形式的条件表达式永远为假，所以不要使用环境变量。
 
 - 逻辑表达式
-    
+  
     ```cmake
     # Logical operators
     if(NOT expression)
@@ -47,14 +48,14 @@ endif()
     if(NOT (expression1 AND (expression2 OR expression3)))
     ```
 - 比较表达式
-    
+  
     ```cmake
     if(value1 OPERATOR value2)
     ```
     
     - OPERATOR
-        
-        
+      
+      
         | Numeric | String | Version numbers | Path |
         | --- | --- | --- | --- |
         | LESS | STRLESS | VERSION_LESS |  |
@@ -65,7 +66,7 @@ endif()
         - major[.minor[.patch[.tweak]]]
 
 - 正则表达式
-    
+  
     ```cmake
     if(value MATCHES regex)
     ```
@@ -77,7 +78,7 @@ endif()
     ```
 
 - 文件系统相关表达式
-    
+  
     ```cmake
     if(EXISTS pathToFileOrDir)
     if(IS_DIRECTORY pathToDir)
@@ -100,7 +101,7 @@ endif()
         ```
     
     - 为什么要用 NOT IS_NEWER_THAN？
-        
+      
         ```cmake
         # WARNING: Very likely to be wrong
         if(${firstFile} IS_NEWER_THAN ${secondFile})
@@ -109,7 +110,7 @@ endif()
         ```
 
 - 判断是否存在表达式
-    
+  
     ```cmake
     if(DEFINED name)
     if(COMMAND name)
