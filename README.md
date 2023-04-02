@@ -51,6 +51,23 @@ CMake 学习交流群（如果二维码失效，请加我微信：eglinuxer，�
 - [第 011 讲：CMake 数学计算操作](./doc/011_cmake_math.md)
 - [第 012 讲：CMake 流程控制之 if() 命令](./doc/012_cmake_if.md)
 - [第 013 讲：CMake 流程控制之 for 循环](./doc/013_cmake_foreach.md)
+- [第 014 讲：CMake 流程控制之 while 循环](./doc/014_cmake_while.md)
+- [第 015 讲：CMake 流程控制之跳出循环和继续下一次循环](./doc/015_cmake_break_continue.md)
+- [第 016 讲：如何使用子目录](./doc/016_cmake_add_subdirectory.md)
+- [第 017 讲：子目录相关的作用域详解](./doc/017_scope_for_subdirectory.md)
+- [第 018 讲：子目录中定义 project](./doc/018_project_for_subdirectory.md)
+- [第 019 讲：CMake 命令之 include](./doc/019_cmake_include.md)
+- [第 020 讲：项目相关的变量详解](./doc/020_project_relative_variables.md)
+- [第 021 讲：CMake 提前结束处理命令：return](./doc/021_cmake_return.md)
+- [第 022 讲：CMake 函数和宏基础](./doc/022_the_basics_of_functions_and_macros.md)
+- [第 023 讲：CMake 函数和宏的参数处理基础](./doc/023_argument_handling_essentials.md)
+- [第 024 讲：CMake 函数和宏之关键字参数](./doc/024_keyword_arguments.md)
+- [第 025 讲：函数和宏返回值详解](./doc/025_functions_andmacros_returning_values.md)
+- [第 026 讲：CMake 命令覆盖详解](./doc/026_overriding_commands.md)
+- [第 027 讲：函数相关的特殊变量](./doc/027_special_variables_for_functions.md)
+- [第 028 讲：复用 CMake 代码的其他方法](./doc/028_othrer_ways_of_invoking_cmake_code.md)
+- [第 029 讲：CMake 处理参数时的一些问题说明](./doc/029_problems_with_argument_handling.md)
+- 
 - 努力更新中...
 
 ### **第三部分：深入 CMake，探讨 CMake 精髓**
