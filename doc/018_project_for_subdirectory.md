@@ -3,9 +3,9 @@
 
 对于初学者，一定会有这样的疑问？project() 命令对于一个项目来说是必须的，那 project() 命令应该在哪里调用，可不可以多次调用呢？本讲我们就一起来把这个问题彻底弄清楚。
 
-首先，project() 命令对于一个项目来说是必须的，如果开发人员没有显示的调用 project() 命令，在运行 cmake 进行项目配置的时候会收到警告信息，同时，cmake 会隐式地添加 project() 命令的调用。强烈建议在顶层 CMakeLists.txt 中适当的位置显示的调用 project() 命令。
+首先，project() 命令对于一个项目来说是必须的，如果开发人员没有显式的调用 project() 命令，在运行 cmake 进行项目配置的时候会收到警告信息，同时，cmake 会隐式地添加 project() 命令的调用。强烈建议在顶层 CMakeLists.txt 中适当的位置显式的调用 project() 命令。
 
-虽然我们可以通过函数或者 cmake 脚本对 project() 命令进行封装，然后通过调用函数或者 include() cmake 脚本的方式间接地调用 project() 命令，但是这些都是强烈不建议的，最好的方式就是在顶层 CMakeLists.txt 中适当的位置显示地调用 project() 命令。
+虽然我们可以通过函数或者 cmake 脚本对 project() 命令进行封装，然后通过调用函数或者 include() cmake 脚本的方式间接地调用 project() 命令，但是这些都是强烈不建议的，最好的方式就是在顶层 CMakeLists.txt 中适当的位置显式地调用 project() 命令。
 
 其次，porject() 命令可不可以调用多次？答案是可以的，但是需要有 add_subdirectory() 命令调用的情况下才行，也就是说，我们不能在同一个 CMakeLists.txt 中调用 project() 命令多次，但是可以在 add_subdirectory() 命令调用时引入的子目录中的 CMakeLists.txt 中再次调用 project() 命令。通常这样做没有什么坏处，但是会导致 CMake 生成更多的项目文件。
 
