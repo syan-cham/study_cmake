@@ -13,7 +13,7 @@ cmake_language(CALL command [args...])
 cmake_language(EVAL CODE code...)
 ```
 
-CALL 方式可以调用 CMake 命令，同时可以以传入参数。但是某些内置的命令不能通过这种方式调用，特别是那些处理逻辑的命令，例如：```if(), endif(), fireach(), endforeach()``` 等等。
+CALL 方式可以调用 CMake 命令，同时可以以传入参数。但是某些内置的命令不能通过这种方式调用，特别是那些处理逻辑的命令，例如：```if(), endif(), foreach(), endforeach()``` 等等。
 
 下面来看一个例子：
 ```cmake
