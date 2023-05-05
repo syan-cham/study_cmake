@@ -1,7 +1,7 @@
 # 第 013 讲：CMake 流程控制之 for 循环
 - [第 013 讲：CMake 流程控制之 for 循环](#第-013-讲cmake-流程控制之-for-循环)
 
-有些项目，我们需要对一个列表的元素进行遍历，或者需要对一堆的值进行相似的操作，这个时候 CMake 的 foreach() 命令就派上可用场，这个 CMake 的 for 循环的命令，其格式如下：
+有些项目，我们需要对一个列表的元素进行遍历，或者需要对一堆的值进行相似的操作，这个时候 CMake 的 foreach() 命令就可以派上用场，其格式如下：
 ```cmake
 foreach(loopVar arg1 arg2 ...)
     # ...
@@ -12,7 +12,7 @@ foreach(loopVar IN [LISTS listVar1 ...] [ITEMS item1 ...])
 endforeach()
 ```
 
-第一种形式很简单，每一次循环，loopVar 都讲从 arg1 arg2 ... 中取出一个值，然后在循环体中使用。
+第一种形式很简单，每一次循环，loopVar 都将从 arg1 arg2 ... 中取出一个值，然后在循环体中使用。
 
 第二种形式比较通用，但是只要有 IN 关键字，那后面的 [LISTS listVar1 ...] [ITEMS item1 ...] 就必须有其一或者都有，当两者都有的时候，[ITEMS item1 ...] 需要全部放在 [LISTS listVar1 ...] 后面。
 
