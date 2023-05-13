@@ -66,6 +66,7 @@ CMake 学习交流群（如果二维码失效，请加我微信：eglinuxer，�
 - [第 030 讲：CMake 属性通用命令](./doc/030_cmake_general_property_cmd.md)
 - [第 031 讲：CMake 全局属性](./doc/031_cmake_global_property.md)
 - [第 032 讲：目录属性](./doc/032_cmake_directory_property.md)
+- [第 033 讲：Target 属性](./doc/033_cmake_target_property.md)
 - 
 - 努力更新中...
 
