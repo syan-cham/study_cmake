@@ -34,3 +34,5 @@
 build
 site
 tmp
+temp
+.vscode
