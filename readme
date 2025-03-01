@@ -1,0 +1,7 @@
+20250302:
+gcc:
+mkdir build
+cd build
+cmake ..
+make
+
